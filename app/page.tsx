@@ -8,15 +8,14 @@ import ContactMe from "../components/portfolioView/ContactMe";
 
 export default function Home() {
   return (
-    <div className="">
+    <>
         <NavBar />
         <Hero />
         <AboutMe />
         <Experience />
-         <Skills />
+        <Skills />
         <Project />
         <ContactMe />
-    </div>
-   
+    </>
   );
 }

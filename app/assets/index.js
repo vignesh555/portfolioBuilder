@@ -119,7 +119,7 @@ export const navbarData = [
 export const heroData = {
   profileName: 'Vignesh Srinivasan',
   totalExperience: '12+ Years',
-  primarySkills: ['Javascript', 'React', 'Redux', 'NodeJs', 'NextJs', 'Typescript'],
+  primarySkills: 'Javascript, React, Redux, NodeJs, NextJs, Typescript',
   emailId: 'vigneshdotnet@gmail.com',
   whatsAppno: '+6586943235',
   phoneNo: '+6586943235',

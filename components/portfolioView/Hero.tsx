@@ -35,7 +35,7 @@ const Hero = () => {
                 <h1 className="mt-5 text-3xl">{heroData.totalExperience} of Experience</h1>
             </div>
             <div className="my-5 flex flex-wrap gap-5 text-yellow-400 items-center justify-center">
-                {heroData.primarySkills.map((oPrimarySkills, index) => (
+                {heroData.primarySkills.split(',').map((oPrimarySkills, index) => (
                     <Badge key={`primarySkills-${index}`}>{oPrimarySkills}</Badge>
                 ))}
             </div>
