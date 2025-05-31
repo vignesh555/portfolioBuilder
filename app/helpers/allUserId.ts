@@ -1,3 +1,4 @@
+import { profile } from "console";
 import supabase from "../config/superbase-db-config";
 
 export const getAllUserIds = async () => {
@@ -22,7 +23,7 @@ export const getAllUserIds = async () => {
   }
 };
 
-export const getAllInformation = async (id) => {
+export const getAllInformation = async (id: string) => {
   const userId = Number(id);
   try {
     const results = await Promise.all([
@@ -83,8 +84,20 @@ export const getAllInformation = async (id) => {
     console.log("Error fetching user information:", error);
     return {
       data: {
-        heroData: {},
-        aboutData: {},
+        heroData: {
+          profileName: "Unknown User",
+          totalExperience: 0,
+          primarySkills: "",
+          emailId: "",
+          whatsAppno: "",
+          phoneNo: "",
+          heroImage: "",
+          profileTitle: "Unknown Title",
+        },
+        aboutData: {
+          profilePhoto: "",
+          description: "No description available",
+        },
         experienceData: [],
         skillsData: [],
         projectsData: [],
@@ -93,7 +106,7 @@ export const getAllInformation = async (id) => {
   }
 };
 
-export const getMetaInformation = async (id) => {
+export const getMetaInformation = async (id: string) => {
   try {
     const results = await Promise.all([
       supabase

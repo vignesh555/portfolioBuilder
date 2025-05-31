@@ -4,7 +4,20 @@ import * as motion from "motion/react-client";
 import Header from './Header'
 import LayoutWrapper from './LayoutWrapper';
 
-function Experience({ experienceData }) {
+interface ExperienceData {
+  position: string;
+  companyName: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+interface ExperienceProps {
+  experienceData: ExperienceData[];
+}
+
+function Experience({ experienceData }: ExperienceProps) {
   return (
     <LayoutWrapper id="experience">
       <Header title='Experience' />

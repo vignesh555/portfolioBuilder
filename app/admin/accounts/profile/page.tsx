@@ -107,10 +107,26 @@ const Profile = () => {
         <Header title="Profile" />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-            <FormInputWrapper fieldName="profileTitle" form={form} />
-            <FormInputWrapper fieldName="whatsAppNo" form={form} />
-            <FormInputWrapper fieldName="phoneNo" form={form} />
-            <FormInputWrapper fieldName="primarySkills" form={form} />
+            <FormInputWrapper<z.infer<typeof formSchema>>
+              fieldName="profileTitle" 
+              control={form.control}
+              errors={form.formState.errors.profileTitle}
+            />
+            <FormInputWrapper 
+              fieldName="whatsAppNo" 
+              control={form.control}
+              errors={form.formState.errors.profileTitle}
+            />
+            <FormInputWrapper 
+              fieldName="phoneNo" 
+              control={form.control}
+              errors={form.formState.errors.profileTitle}
+            />
+            <FormInputWrapper 
+            fieldName="primarySkills" 
+              control={form.control}
+              errors={form.formState.errors.profileTitle}
+            />
             <FormFileUploadWrapper 
               name="heroImage"
               form={form}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormControl, FormField, FormItem, FormMessage } from "./form"
 import {
   Popover,
@@ -10,10 +11,18 @@ import { CalendarIcon } from "lucide-react"
 import { Button } from "./button"
 import { cn } from "@/lib/utils"
 
-const FormDateWrapper = ({ form, fieldName }) => {
+import { Control, FieldErrors, FieldValues, Path  } from "react-hook-form";
+
+type FormDateWrapperProps<T extends FieldValues> = {
+  fieldName: Path<T>;
+  control: Control<T>;
+  errors: FieldErrors<T>[keyof T] | undefined;
+};
+
+function FormDateWrapper<T extends FieldValues>({ fieldName, control, errors }: FormDateWrapperProps<T>) {
   return (
     <FormField
-      control={form.control}
+      control={control}
       name={fieldName}
       render={({ field }) => (
         <FormItem className="flex flex-col">
@@ -51,7 +60,7 @@ const FormDateWrapper = ({ form, fieldName }) => {
               />
             </PopoverContent>
           </Popover>
-          {form.formState.errors[fieldName] ? (
+          {errors ? (
             <FormMessage />
           ) : (
             <div className="text-sm text-muted-foreground min-h-[20px]">&nbsp;</div>

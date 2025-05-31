@@ -4,7 +4,16 @@ import Image from "next/image"
 import Header from "./Header"
 import LayoutWrapper from "./LayoutWrapper"
 
-function Skills({ skillsData }) {
+type Skill = {
+    icon: string;
+    name: string;
+};
+
+type SkillsProps = {
+    skillsData: Skill[];
+};
+
+function Skills({ skillsData }: SkillsProps) {
     return (
       <LayoutWrapper id="skills">
         <Header title='Skills' />

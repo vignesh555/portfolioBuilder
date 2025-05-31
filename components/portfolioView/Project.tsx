@@ -3,7 +3,18 @@ import * as motion from "motion/react-client";
 import Header from './Header'
 import LayoutWrapper from './LayoutWrapper';
 
-function Project({ projectsData }) {
+interface ProjectData {
+  title: string;
+  objective: string;
+  techinicalDescription: string;
+  skillsUsed: string;
+}
+
+interface ProjectProps {
+  projectsData: ProjectData[];
+}
+
+function Project({ projectsData }: ProjectProps) {
   return (
     <LayoutWrapper id="projects">
       <Header title='Projects' />

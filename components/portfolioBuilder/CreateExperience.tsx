@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -14,6 +15,7 @@ import FormDateWrapper from "@/components/ui/FormDateWrapper";
 import { saveExperience, editExperience } from "@/app/actions/experience"
 import toast from "react-hot-toast"
 import { parse, format} from "date-fns"
+import { IExperienceResponse } from "@/app/interfaces"
 
 const formSchema = z.object({
   position: z.string().nonempty("This is Required"),
@@ -28,11 +30,12 @@ interface CreateExperienceProps {
   getExperience: () => void;
 }
 
+export type ExperienceFormSchema = z.infer<typeof formSchema>;
+
 const CreateExperience = forwardRef(({ getExperience }: CreateExperienceProps, ref) => {
   const [loading, setLoading] = useState(false);
   const { user } = userGlobalStore() as IuserGlobalStore;
   const [editId, setEditId] = useState<string | null>(null);
-  // const [selectedFileUpload, setSelectedFileUpload] = useState(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,7 +49,7 @@ const CreateExperience = forwardRef(({ getExperience }: CreateExperienceProps, r
   })
 
   useImperativeHandle(ref, () => ({
-    populateTheForm: (row) => {
+    populateTheForm: (row: IExperienceResponse) => {
       setEditId(row.id);
       form.reset({
         position: row.position,
@@ -114,13 +117,35 @@ const CreateExperience = forwardRef(({ getExperience }: CreateExperienceProps, r
     <div className="mt-10">
       <Form {...form}>
         <form className="w-full" onSubmit={form.handleSubmit(onSubmit)} >
-          <FormInputWrapper fieldName="position" form={form} />
-          <FormInputWrapper fieldName="companyName" form={form} />
-          <FormInputWrapper fieldName="countryName" form={form} />
-          <FormDateWrapper fieldName="fromDate" form={form} /> 
-          <FormDateWrapper fieldName="endDate" form={form} /> 
-
-          <FormMultiLineWrapper fieldName="description" form={form} />
+          <FormInputWrapper<z.infer<typeof formSchema>> 
+            fieldName="position" 
+            control={form.control}
+            errors={form.formState.errors.position}
+          />
+          <FormInputWrapper<z.infer<typeof formSchema>> 
+            fieldName="companyName" 
+            control={form.control}
+            errors={form.formState.errors.companyName}
+          />
+          <FormInputWrapper<z.infer<typeof formSchema>>  
+            fieldName="countryName" 
+            control={form.control}
+            errors={form.formState.errors.countryName}
+          />
+          <FormDateWrapper<ExperienceFormSchema> 
+            fieldName="fromDate" 
+            control={form.control} 
+            errors={form.formState.errors.fromDate}
+          /> 
+          <FormDateWrapper<ExperienceFormSchema> 
+            fieldName="endDate"
+            control={form.control} 
+            errors={form.formState.errors.endDate}
+          /> 
+          <FormMultiLineWrapper<z.infer<typeof formSchema>> 
+            fieldName="description" 
+            form={form} 
+          />
           <Button disabled={loading} type="submit">Submit</Button>
         </form>
       </Form>

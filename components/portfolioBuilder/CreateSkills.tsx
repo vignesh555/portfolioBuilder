@@ -13,6 +13,7 @@ import { saveSkills, editSkills } from "@/app/actions/skills"
 import toast from "react-hot-toast"
 import { uploadFile } from "@/app/helpers/uploads"
 import FormFileUploadWrapper from "../ui/FormFileUploadWrapper"
+import { ISkillsResponse } from "@/app/interfaces"
 
 const formSchema = z.object({
     name: z.string().nonempty("This is Required"),
@@ -42,7 +43,7 @@ const CreateSkills = forwardRef(({ getSkills }: CreateSkillsProps, ref) => {
     })
 
     useImperativeHandle(ref, () => ({
-        populateTheForm: (row) => {
+        populateTheForm: (row: ISkillsResponse) => {
             setEditId(row.id);
             setSelectedFileUpload(row.icon);
             form.reset({
@@ -123,7 +124,11 @@ const CreateSkills = forwardRef(({ getSkills }: CreateSkillsProps, ref) => {
         <div className="mt-10">
             <Form {...form}>
                 <form className="w-full" onSubmit={form.handleSubmit(onSubmit)} >
-                    <FormInputWrapper fieldName="name" form={form} />
+                    <FormInputWrapper<z.infer<typeof formSchema>> 
+                        fieldName="name" 
+                        control={form.control}
+                        errors={form.formState.errors.name}
+                    />
                     <FormFileUploadWrapper
                         name="icon"
                         form={form}

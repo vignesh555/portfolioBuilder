@@ -5,7 +5,7 @@ import Header from "./Header";
 import LayoutWrapper from "./LayoutWrapper";
 
 
-const AboutMe = ({ aboutData }) => {
+const AboutMe = ({ aboutData }: { aboutData: { profilePhoto: string, description: string }}) => {
     return (
         <LayoutWrapper id="about">
             <Header title="About Me" />

@@ -8,7 +8,21 @@ import PhoneFillIcon from "remixicon-react/PhoneFillIcon";
 
 import LayoutWrapper from "./LayoutWrapper";
 
-const Hero = ({ heroData }) => {
+interface HeroData {
+    profileName: string;
+    heroImage: string;
+    profileTitle: string;
+    primarySkills: string;
+    emailId: string;
+    whatsAppno: string;
+    phoneNo: string;
+}
+
+interface HeroProps {
+    heroData: HeroData;
+}
+
+const Hero: React.FC<HeroProps> = ({ heroData }) => {
   return (
     <LayoutWrapper id="home">
         <div>

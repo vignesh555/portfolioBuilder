@@ -12,6 +12,7 @@ import FormInputWrapper from "@/components/ui/FormInputWrapper";
 import FormMultiLineWrapper from "@/components/ui/FormMultiLineWrapper";
 import { saveProject, editProject } from "@/app/actions/project"
 import toast from "react-hot-toast"
+import { IProjectResponse } from "@/app/interfaces"
 
 const formSchema = z.object({
   name: z.string().nonempty("This is Required"),
@@ -40,7 +41,7 @@ const CreateProject = forwardRef(({ getProject }: CreateProjectProps, ref) => {
   })
 
   useImperativeHandle(ref, () => ({
-    populateTheForm: (row) => {
+    populateTheForm: (row: IProjectResponse) => {
       setEditId(row.id);
       form.reset({
         name: row.name,
@@ -100,10 +101,25 @@ const CreateProject = forwardRef(({ getProject }: CreateProjectProps, ref) => {
     <div className="mt-10">
       <Form {...form}>
         <form className="w-full" onSubmit={form.handleSubmit(onSubmit)} >
-          <FormInputWrapper fieldName="name" form={form} />
-          <FormInputWrapper fieldName="objective" form={form} />
-          <FormMultiLineWrapper fieldName="description" form={form} />
-          <FormInputWrapper fieldName="skills" form={form} />
+          <FormInputWrapper<z.infer<typeof formSchema>> 
+            fieldName="name" 
+            control={form.control}
+            errors={form.formState.errors.name}
+          />
+          <FormInputWrapper<z.infer<typeof formSchema>> 
+            fieldName="objective" 
+            control={form.control}
+            errors={form.formState.errors.objective}
+          />
+          <FormMultiLineWrapper<z.infer<typeof formSchema>> 
+            fieldName="description" 
+            form={form} 
+          />
+          <FormInputWrapper<z.infer<typeof formSchema>> 
+            fieldName="skills" 
+            control={form.control}
+            errors={form.formState.errors.skills}
+          />
           <Button disabled={loading} type="submit">Submit</Button>
         </form>
       </Form>
