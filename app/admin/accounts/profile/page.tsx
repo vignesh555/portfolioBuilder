@@ -47,7 +47,6 @@ const Profile = () => {
 
   const getProfile = useCallback(async () => {
     const { error, data } = await getCurrentUser();
-    console.log('data', data);
     if (data) {
       form.reset({
         whatsAppNo: data.whatsAppNo,

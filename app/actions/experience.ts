@@ -11,8 +11,6 @@ export const saveExperience = async (
   error: Error | string | null;
 }> => {
   try {
-    console.log('saveAboutMe')
-    console.log(experience)
     const { data, error } = await supabase.from("experience").insert([
       {
         position: experience.position,
@@ -39,8 +37,6 @@ export const saveExperience = async (
 
 export const editExperience = async (experience: IExperienceEditRequest) => {
   try {
-    console.log('editAboutMe')
-    console.log(experience)
     const { data, error } = await supabase
       .from("experience")
       .update([

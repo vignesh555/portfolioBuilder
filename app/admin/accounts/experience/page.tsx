@@ -18,7 +18,6 @@ const Experience = () => {
   const getExperience = useCallback(async () => {
     if (user && user.id) {
       const { error, data, success } = await fetchExperience(user.id);
-      console.log(data)
       if (success && data) {
         if (data.length === 0) {
           setTableData([]);
@@ -36,14 +35,12 @@ const Experience = () => {
   }, [getExperience]);
 
   const handleEditExperience = (row: IExperienceResponse) => {
-    console.log("View customer", row)
     childRef.current?.populateTheForm(row);
   }
 
   const handleDeleteExperience = async (row: IExperienceResponse) => {
     try {
       const { success } = await deleteExperienceParticularId(row.id);
-      console.log("Delete experience", success)
       if (success) {
         toast.success("Experience deleted successfully");
         getExperience();

@@ -11,7 +11,6 @@ export const saveSkills = async (
   error: Error | string | null;
 }> => {
   try {
-    console.log('saveSkills')
     const { data, error } = await supabase.from("skills").insert([
       {
         user_id: skills.userId,
@@ -38,7 +37,6 @@ export const saveSkills = async (
 
 export const editSkills = async (skills: ISkillsEditRequest) => {
   try {
-    console.log('editAboutMe')
     const { data, error } = await supabase
       .from("about_me")
       .update([

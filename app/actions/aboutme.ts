@@ -12,7 +12,6 @@ export const saveAboutMe = async (
   error: Error | string | null;
 }> => {
   try {
-    console.log('saveAboutMe')
     const { data, error } = await supabase.from("about_me").insert([
       {
         bio: aboutMe.bio,
@@ -35,7 +34,6 @@ export const saveAboutMe = async (
 
 export const editAboutMe = async (aboutMe: IAboutMeRequest, userId: string) => {
   try {
-    console.log('editAboutMe')
     const { data, error } = await supabase
       .from("about_me")
       .update([

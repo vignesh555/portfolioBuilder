@@ -11,7 +11,6 @@ export const saveProject = async (
   error: Error | string | null;
 }> => {
   try {
-    console.log('saveProject')
     const { data, error } = await supabase.from("project").insert([
       {
         user_id: project.userId,
@@ -36,7 +35,6 @@ export const saveProject = async (
 
 export const editProject = async (project: IProjectEditRequest) => {
   try {
-    console.log('editAboutMe')
     const { data, error } = await supabase
       .from("project")
       .update([

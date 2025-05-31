@@ -18,7 +18,6 @@ const Skills = () => {
   const getSkills = useCallback(async () => {
     if (user && user.id) {
       const { error, data, success } = await fetchSkills(user.id);
-      console.log(data)
       if (success && data) {
         if (data.length === 0) {
           setTableData([]);
@@ -36,7 +35,6 @@ const Skills = () => {
   }, [getSkills]);
 
   const handleEditSkills = (row: ISkillsResponse) => {
-    console.log("View customer", row)
     childRef.current?.populateTheForm(row);
   }
 

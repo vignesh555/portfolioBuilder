@@ -18,7 +18,6 @@ const Project = () => {
   const getProject = useCallback(async () => {
     if (user && user.id) {
       const { error, data, success } = await fetchProject(user.id);
-      console.log(data)
       if (success && data) {
         if (data.length === 0) {
           setTableData([]);
@@ -36,14 +35,12 @@ const Project = () => {
   }, [getProject]);
 
   const handleEditProject = (row: IProjectResponse) => {
-    console.log("View customer", row)
     childRef.current?.populateTheForm(row);
   }
 
   const handleDeleteProject = async (row: IProjectResponse) => {
     try {
       const { success } = await deleteProjectParticularId(row.id);
-      console.log("Delete experience", success)
       if (success) {
         toast.success("Project deleted successfully");
         getProject();
@@ -51,7 +48,6 @@ const Project = () => {
         toast.error("Failed to delete experience. Please try again.");
       }
     } catch (error) {
-      console.error("Error deleting experience:", error);
       toast.error("Failed to delete experience. Please try again.");
       return;
     }

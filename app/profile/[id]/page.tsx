@@ -1,4 +1,4 @@
-import { getAllInformation, getAllUserIds } from "@/app/helpers/allUserId"
+import { getAllInformation, getAllUserIds, getMetaInformation } from "@/app/helpers/allUserId"
 import AboutMe from "@/components/portfolioView/About";
 import ContactMe from "@/components/portfolioView/ContactMe";
 import Experience from "@/components/portfolioView/Experience";
@@ -8,8 +8,8 @@ import Project from "@/components/portfolioView/Project";
 import Skills from "@/components/portfolioView/Skills";
 
 async function Profile({ params }: { params: { id: string } }) {
-    console.log("Profile Page for User ID:", params.id);
-    const { data } = await getAllInformation(parseInt(params.id));
+    const { id } = await params
+    const { data } = await getAllInformation(parseInt(id));
     const { heroData, aboutData, experienceData, skillsData, projectsData } = data;
     return (
         <div>
@@ -26,6 +26,31 @@ async function Profile({ params }: { params: { id: string } }) {
     )
 }
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+    const { id } = await params
+    const { data } = await getMetaInformation(id);
+    const { heroData, aboutData } = data;  
+
+    return {
+        title: `${heroData.profileName} | ${heroData.profileTitle}`,
+        description: aboutData.description,
+        // icons: {
+        //    icon: `/favicons/favIconVS.png`, 
+        //    type: 'image/png',
+        // },
+        openGraph: {
+            title: `${heroData.profileName} | ${heroData.profileTitle}`,
+            description: aboutData.description,
+            images: [
+                {
+                    url: aboutData.profilePhoto,
+                    alt: `${heroData.profileName}'s profile picture`,
+                },
+            ],
+        },
+    }
+}
+
 export async function generateStaticParams() {
     const { data, success }  = await getAllUserIds();
     if (!success) {
@@ -39,7 +64,6 @@ export async function generateStaticParams() {
             id: oData.id.toString(),
         }
     });
-    console.log(userIds)
     return userIds;
 }
 

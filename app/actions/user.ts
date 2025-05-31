@@ -66,7 +66,6 @@ export const getCurrentUser = async (): Promise<ICurrentUserResponse> => {
     const clerkUser = await currentUser();
     const { data, success } = await getUserProfile(clerkUser!.id);
     if (success) {
-      console.log("User data found in database", data);
       return {
         success: true,
         data: {
@@ -100,7 +99,6 @@ export const getCurrentUser = async (): Promise<ICurrentUserResponse> => {
     }
     throw new Error(response.error);
   } catch (error) {
-    console.log(error)
     if (error instanceof Error) {
       return {
         success: false,
@@ -118,7 +116,6 @@ export const getCurrentUser = async (): Promise<ICurrentUserResponse> => {
 
 export const updateProfile = async (user: IUserRequest) => {
   try {
-    console.log(user);
     const { data, error } = await supabase
       .from("user_profiles")
       .update({

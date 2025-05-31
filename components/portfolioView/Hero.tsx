@@ -9,7 +9,6 @@ import PhoneFillIcon from "remixicon-react/PhoneFillIcon";
 import LayoutWrapper from "./LayoutWrapper";
 
 const Hero = ({ heroData }) => {
-    console.log("Hero Data:", heroData);
   return (
     <LayoutWrapper id="home">
         <div>
