@@ -45,6 +45,9 @@ const FormDateWrapper = ({ form, fieldName }) => {
                   date > new Date() || date < new Date("1900-01-01")
                 }
                 initialFocus
+                captionLayout="dropdown"
+                fromYear={1900}          // ✅ Set starting year
+                toYear={new Date().getFullYear()}
               />
             </PopoverContent>
           </Popover>

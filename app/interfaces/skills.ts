@@ -15,7 +15,6 @@ export interface ISkillsSaveRequest {
 
 export interface ISkillsEditRequest {
     id: string,
-    userId: string,
     name: string,
     icon: string,
 }

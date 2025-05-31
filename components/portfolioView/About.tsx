@@ -2,11 +2,11 @@
 import * as motion from "motion/react-client";
 import Image from "next/image";
 import Header from "./Header";
-import { aboutData, downloadIcon } from "@/app/assets";
+import { downloadIcon } from "@/app/assets";
 import LayoutWrapper from "./LayoutWrapper";
 
 
-const AboutMe = () => {
+const AboutMe = ({ aboutData }) => {
     return (
         <LayoutWrapper id="about">
             <Header title="About Me" />
@@ -15,13 +15,13 @@ const AboutMe = () => {
                     <Image
                         src={aboutData.profilePhoto}
                         alt="About me"
-                        width={400}
-                        height={400}
+                        width={200}
+                        height={200}
                         className="w-[300px] rounded-full"
                     />
                 </div>
                 <motion.div 
-                    className="max-w-[800px] rounded-xl bg-zinc-100 p-5 text-justify"
+                    className="max-w-[600px] rounded-xl bg-zinc-100 p-5 text-justify"
                     initial={{
                         opacity: 0,
                         y: 200
@@ -34,7 +34,7 @@ const AboutMe = () => {
                     viewport={{ once: true }}
                     >
                     <p dangerouslySetInnerHTML={{ __html: aboutData.description }} />
-                    <a
+                    {/* <a
                         href="#"
                         className="
                             w-max bg-red-400 
@@ -44,7 +44,7 @@ const AboutMe = () => {
                     >
                         <span>Download CV</span>
                         <span className="text-white text-xl">{downloadIcon}</span>
-                    </a>
+                    </a> */}
                 </motion.div>
             </div>
         </LayoutWrapper>

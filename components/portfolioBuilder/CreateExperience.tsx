@@ -48,7 +48,6 @@ const CreateExperience = forwardRef(({ getExperience }: CreateExperienceProps, r
   useImperativeHandle(ref, () => ({
     populateTheForm: (row) => {
       setEditId(row.id);
-      console.log(new Date(row.fromDate));
       form.reset({
         position: row.position,
         companyName: row.companyName,

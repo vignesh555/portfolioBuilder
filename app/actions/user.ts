@@ -2,8 +2,8 @@
 
 import supabase from "../config/superbase-db-config";
 import { currentUser } from "@clerk/nextjs/server";
-import { ICurrentUserResponse, IUser, IUserRequest, IUserResponse } from "../interfaces";
-import { boolean } from "zod";
+import { ICurrentUserResponse, IUser, IUserRequest } from "../interfaces";
+import toast from "react-hot-toast";
 
 export const saveCurrentUser = async (userData: IUser) => {
   try {
@@ -66,9 +66,18 @@ export const getCurrentUser = async (): Promise<ICurrentUserResponse> => {
     const clerkUser = await currentUser();
     const { data, success } = await getUserProfile(clerkUser!.id);
     if (success) {
+      console.log("User data found in database", data);
       return {
         success: true,
-        data,
+        data: {
+          full_name: data.full_name,
+          email: data?.email || "",
+          whatsAppNo: data?.whatsapp_no || "",
+          phoneNo: data?.phone_no || "",
+          primarySkills: data?.primary_skills || "",
+          heroImage: data?.hero_image || "",
+          profileTitle: data?.profile_title || ""
+        },
         error: null
       };
     }
@@ -79,6 +88,7 @@ export const getCurrentUser = async (): Promise<ICurrentUserResponse> => {
     };
     const response = await saveCurrentUser(userData);
     if (response.success) {
+      toast.success("Profile successfully updated");
       const { data: saveData, success: saveSuccess } = await getUserProfile(
         clerkUser!.id
       );
@@ -112,10 +122,11 @@ export const updateProfile = async (user: IUserRequest) => {
     const { data, error } = await supabase
       .from("user_profiles")
       .update({
-        whatsapp_no: user.whatsapp_no,
-        phone_no: user.phone_no,
-        primary_skills: user.primary_skills,
-        hero_image: user.hero_image,
+        whatsapp_no: user.whatsAppNo,
+        phone_no: user.phoneNo,
+        primary_skills: user.primarySkills,
+        hero_image: user.heroImage,
+        profile_title: user.profileTitle,
       })
       .eq("id", user.id);
     if (error) {

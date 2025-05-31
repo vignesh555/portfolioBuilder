@@ -20,10 +20,11 @@ export interface ICurrentUserResponse {
 
 export interface IUserRequest {
     id?: string,
-    whatsapp_no?: string,
-    phone_no?: string, 
-    primary_skills?: string,
-    hero_image?: string,
+    whatsAppNo?: string,
+    phoneNo?: string, 
+    primarySkills?: string,
+    heroImage?: string,
+    profileTitle?: string,
 }
 
 export interface IUserResponse {

@@ -19,12 +19,15 @@ import userGlobalStore, { IuserGlobalStore } from "@/app/global-store/user-store
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { getCurrentUser, updateProfile } from "@/app/actions/user";
+import FormInputWrapper from "@/components/ui/FormInputWrapper";
+import FormFileUploadWrapper from "@/components/ui/FormFileUploadWrapper";
 
 const formSchema = z.object({
   whatsAppNo: z.string().nonempty("This is Required"),
   phoneNo: z.string().nonempty("This is Required"),
   primarySkills: z.string().nonempty("This is Required"),
   heroImage: z.string(),
+  profileTitle: z.string().nonempty("This is Required"),
 })
 
 const Profile = () => {
@@ -37,7 +40,8 @@ const Profile = () => {
       whatsAppNo: "",
       phoneNo: "",
       primarySkills: "",
-      heroImage: ""
+      heroImage: "",
+      profileTitle: "",
     },
   })
 
@@ -46,12 +50,13 @@ const Profile = () => {
     console.log('data', data);
     if (data) {
       form.reset({
-        whatsAppNo: data.whatsapp_no,
-        phoneNo: data?.phone_no,
-        primarySkills: data?.primary_skills,
-        heroImage: data?.hero_image,
+        whatsAppNo: data.whatsAppNo,
+        phoneNo: data?.phoneNo,
+        primarySkills: data?.primarySkills,
+        heroImage: data?.heroImage,
+        profileTitle: data?.profileTitle || ""
       })
-      setSelectedFileUpload(data.hero_image as string);
+      setSelectedFileUpload(data.heroImage as string);
     } else {
       toast.error(error instanceof Error ? error.message : error);
     }
@@ -71,11 +76,12 @@ const Profile = () => {
         heroImage = (await uploadFile(selectedFileUpload!)).data.publicUrl;
       }
       const { success } = await updateProfile({
-        whatsapp_no: values.whatsAppNo,
-        phone_no: values.phoneNo,
-        primary_skills: values.primarySkills,
-        hero_image: heroImage,
-        id: user!.id!
+        whatsAppNo: values.whatsAppNo,
+        phoneNo: values.phoneNo,
+        primarySkills: values.primarySkills,
+        heroImage: heroImage,
+        id: user!.id!,
+        profileTitle: values.profileTitle,
       })
       if (success) {
         toast.success("Successfully Updated")
@@ -105,85 +111,15 @@ const Profile = () => {
         <Header title="Profile" />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-            <FormField
-              control={form.control}
-              name="whatsAppNo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input className="bg-white" placeholder="Enter Whatapp No" {...field} />
-                  </FormControl>
-                  {form.formState.errors['whatsAppNo'] ? (
-                    <FormMessage />
-                  ) : (
-                    <div className="text-sm text-muted-foreground min-h-[20px]">&nbsp;</div>
-                  )}
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phoneNo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input className="bg-white" placeholder="Enter Phone No" {...field} />
-                  </FormControl>
-                  {form.formState.errors.phoneNo ? (
-                    <FormMessage />
-                  ) : (
-                    <div className="text-sm text-muted-foreground min-h-[20px]">&nbsp;</div>
-                  )}
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="primarySkills"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input className="bg-white" placeholder="Enter Primary skills" {...field} />
-                  </FormControl>
-                  {form.formState.errors.primarySkills ? (
-                    <FormMessage />
-                  ) : (
-                    <div className="text-sm text-muted-foreground min-h-[20px]">&nbsp;</div>
-                  )}
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
+            <FormInputWrapper fieldName="profileTitle" form={form} />
+            <FormInputWrapper fieldName="whatsAppNo" form={form} />
+            <FormInputWrapper fieldName="phoneNo" form={form} />
+            <FormInputWrapper fieldName="primarySkills" form={form} />
+            <FormFileUploadWrapper 
               name="heroImage"
-              render={() => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      className="bg-white"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        setSelectedFileUpload(e.target.files![0])
-                      }}
-                    />
-                  </FormControl>
-                  {form.formState.errors.heroImage ? (
-                    <FormMessage />
-                  ) : (
-                    <div className="text-sm text-muted-foreground min-h-[20px]">&nbsp;</div>
-                  )}
-                  {heroImage && <div className="border p-2 w-max">
-                    <Image
-                      src={heroImage}
-                      className="w-32 h-32"
-                      alt="Hero image"
-                      width={150}
-                      height={150}
-                    />
-                  </div>}
-                </FormItem>
-              )}
+              form={form}
+              setSelectedFileUpload={setSelectedFileUpload}
+              heroImage={heroImage}
             />
             <Button disabled={loading} type="submit">Submit</Button>
           </form>

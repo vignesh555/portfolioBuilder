@@ -7,9 +7,9 @@ import WhatsappFillIcon from "remixicon-react/WhatsappFillIcon";
 import PhoneFillIcon from "remixicon-react/PhoneFillIcon";
 
 import LayoutWrapper from "./LayoutWrapper";
-import { heroData } from "../../app/assets";
 
-const Hero = () => {
+const Hero = ({ heroData }) => {
+    console.log("Hero Data:", heroData);
   return (
     <LayoutWrapper id="home">
         <div>
@@ -24,7 +24,7 @@ const Hero = () => {
                     }}
                 >
                     <Image 
-                        src="/vignesh_srinivasan_profile.png"
+                        src={heroData.heroImage}
                         alt="Vignesh Srinivasan Profile"
                         width={400}
                         height={400}
@@ -32,7 +32,7 @@ const Hero = () => {
                         className="h-auto w-[300px] rounded-full"
                     />
                 </motion.div>
-                <h1 className="mt-5 text-3xl">{heroData.totalExperience} of Experience</h1>
+                <h1 className="mt-5 text-3xl">{heroData.profileTitle}</h1>
             </div>
             <div className="my-5 flex flex-wrap gap-5 text-yellow-400 items-center justify-center">
                 {heroData.primarySkills.split(',').map((oPrimarySkills, index) => (

@@ -124,3 +124,27 @@ export const fetchSkillsParticularId = async (id: string): Promise<{
     return { error: "Error in edit record", data: null, success: false };
   }
 };
+
+
+export const deleteSkillsParticularId = async (id: string): Promise<{
+  data?: ISkillsResponse[] | null;
+  success?: boolean;
+  error: Error | string | null;
+}> => {
+  try {
+    const { data, error } = await supabase
+      .from("skills")
+      .delete()
+      .eq("id", id);
+    if (error) {
+      throw new Error("Error in edit record");
+    }
+    return { error: null, data, success: true };
+  } catch (error) {
+    console.log(error);
+    if (error instanceof Error) {
+      return { error, data: null, success: false };
+    }
+    return { error: "Error in edit record", data: null, success: false };
+  }
+};

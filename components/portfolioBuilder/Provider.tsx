@@ -24,7 +24,6 @@ function Provider({
                 throw new Error('Failed to fetch user');
             }
             const response: IUserResponse = await data.json();
-            console.log(response.data)
             if (response?.success) {
                 setUser(response.data)
             } else {

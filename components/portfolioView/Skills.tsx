@@ -1,11 +1,10 @@
 'use client'
 import * as motion from "motion/react-client";
 import Image from "next/image"
-import { skillsData } from "../../app/assets"
 import Header from "./Header"
 import LayoutWrapper from "./LayoutWrapper"
 
-function Skills() {
+function Skills({ skillsData }) {
     return (
       <LayoutWrapper id="skills">
         <Header title='Skills' />
