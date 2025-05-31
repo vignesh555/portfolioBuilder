@@ -21,13 +21,13 @@ function Skills({ skillsData }: SkillsProps) {
           className='pb-20 flex flex-wrap gap-6'
           initial={{
               opacity: 0,
-              x: 200
+              y: 200
           }}
           whileInView={{
               opacity: 1,
-              x: 0
+              y: 0
           }}
-          transition={{ type: 'spring', bounce: 1  }}
+          transition={{ duration: 0.4, ease: ["easeIn", "easeOut"] }}
           viewport={{ once: true }}
           >
              {skillsData.map((oSkill, index) => (

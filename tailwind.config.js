@@ -3,6 +3,9 @@ module.exports = {
     content: ['./app/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
     theme: {
       extend: {
+        screens: {
+          xs: '375px', // New custom breakpoint
+        },
         colors: {
           linksColor: 'blue',
         },

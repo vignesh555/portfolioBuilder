@@ -22,11 +22,11 @@ function Project({ projectsData }: ProjectProps) {
         className='pb-20'
         initial={{
             opacity: 0,
-            x: 200
+            y: 200
         }}
         whileInView={{
             opacity: 1,
-            x: 0
+            y: 0
         }}
         transition={{ duration: 0.4, ease: ["easeIn", "easeOut"] }}
         viewport={{ once: true }}
