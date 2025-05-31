@@ -2,7 +2,6 @@
 import * as motion from "motion/react-client";
 import Image from "next/image";
 import Header from "./Header";
-import { downloadIcon } from "@/app/assets";
 import LayoutWrapper from "./LayoutWrapper";
 
 

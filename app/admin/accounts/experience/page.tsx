@@ -9,11 +9,15 @@ import { columns } from "./columns";
 import { IExperienceResponse } from "@/app/interfaces";
 import CreateExperience from "@/components/portfolioBuilder/CreateExperience";
 
+interface CreateExperienceRef {
+    populateTheForm: (row: IExperienceResponse) => void;
+  }
 
 const Experience = () => {
   const [tableData, setTableData] = useState<IExperienceResponse[] | []>([]);
   const { user } = userGlobalStore() as IuserGlobalStore;
-  const childRef = useRef(null);
+  
+  const childRef = useRef<CreateExperienceRef>(null);
 
   const getExperience = useCallback(async () => {
     if (user && user.id) {
@@ -58,7 +62,7 @@ const Experience = () => {
 
   return (
     <>
-      <DataTable columns={columns({ onEdit: handleEditExperience, onDelete: handleDeleteExperience })} data={tableData} />
+      <DataTable columns={columns(handleEditExperience, handleDeleteExperience)} data={tableData} />
       <CreateExperience getExperience={getExperience} ref={childRef} />
     </>
   )

@@ -17,4 +17,5 @@ export interface ISkillsEditRequest {
     id: string,
     name: string,
     icon: string,
+    userId: string,
 }

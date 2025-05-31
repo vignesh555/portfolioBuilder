@@ -2,22 +2,15 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import Editor from 'react-simple-wysiwyg';
 import Header from "@/components/portfolioView/Header"
 import { Button } from "@/components/ui/button"
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { uploadFile } from "@/app/helpers/uploads"
 import userGlobalStore, { IuserGlobalStore } from "@/app/global-store/user-store";
 import toast from "react-hot-toast";
-import Image from "next/image";
 import { getCurrentUser, updateProfile } from "@/app/actions/user";
 import FormInputWrapper from "@/components/ui/FormInputWrapper";
 import FormFileUploadWrapper from "@/components/ui/FormFileUploadWrapper";
@@ -33,7 +26,7 @@ const formSchema = z.object({
 const Profile = () => {
   const [loading, setLoading] = useState(false);
   const { user } = userGlobalStore() as IuserGlobalStore;
-  const [selectedFileUpload, setSelectedFileUpload] = useState(null);
+  const [selectedFileUpload, setSelectedFileUpload] = useState<File | string | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,7 +50,11 @@ const Profile = () => {
       })
       setSelectedFileUpload(data.heroImage as string);
     } else {
-      toast.error(error instanceof Error ? error.message : error);
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.error("An error occurred while fetching profile data.");
+      }
     }
   }, [form, setSelectedFileUpload])
 
@@ -74,7 +71,7 @@ const Profile = () => {
       } else {
         heroImage = (await uploadFile(selectedFileUpload!)).data.publicUrl;
       }
-      const { success } = await updateProfile({
+      const { success } : { success: boolean } = await updateProfile({
         whatsAppNo: values.whatsAppNo,
         phoneNo: values.phoneNo,
         primarySkills: values.primarySkills,

@@ -5,15 +5,19 @@ import userGlobalStore, { IuserGlobalStore } from "@/app/global-store/user-store
 import toast from "react-hot-toast";
 import { deleteProjectParticularId, fetchProject } from "@/app/actions/project";
 import { DataTable } from "./data-table";
-import { columns } from "./columns";
+import { getColumns } from "./columns";
 import { IProjectResponse } from "@/app/interfaces";
 import CreateProject from "@/components/portfolioBuilder/CreateProject";
 
 
+interface CreateProjectRef {
+  populateTheForm: (row: IProjectResponse) => void;
+}
+
 const Project = () => {
   const [tableData, setTableData] = useState<IProjectResponse[] | []>([]);
   const { user } = userGlobalStore() as IuserGlobalStore;
-  const childRef = useRef(null);
+  const childRef = useRef<CreateProjectRef>(null);
 
   const getProject = useCallback(async () => {
     if (user && user.id) {
@@ -48,6 +52,7 @@ const Project = () => {
         toast.error("Failed to delete experience. Please try again.");
       }
     } catch (error) {
+      console.error("Error deleting project:", error);
       toast.error("Failed to delete experience. Please try again.");
       return;
     }
@@ -55,7 +60,7 @@ const Project = () => {
 
   return (
     <>
-      <DataTable columns={columns({ onEdit: handleEditProject, onDelete: handleDeleteProject })} data={tableData} />
+      <DataTable columns={getColumns({ onEdit: handleEditProject, onDelete: handleDeleteProject })} data={tableData} />
       <CreateProject getProject={getProject} ref={childRef} />
     </>
   )

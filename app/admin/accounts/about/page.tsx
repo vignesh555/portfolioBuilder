@@ -28,8 +28,8 @@ const formSchema = z.object({
 const AboutMe = () => {
   const [loading, setLoading] = useState(false);
   const { user } = userGlobalStore() as IuserGlobalStore;
-  const [selectedFileUpload, setSelectedFileUpload] = useState(null);
-  const [aboutMeId, setAboutMeId] = useState(null);
+  const [selectedFileUpload, setSelectedFileUpload] = useState<string | File | null>(null);
+  const [aboutMeId, setAboutMeId] = useState<number | string | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

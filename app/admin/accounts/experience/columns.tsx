@@ -11,8 +11,10 @@ import {
 import { MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export const columns: ColumnDef<IExperienceResponse>[] = ({ onEdit, onDelete }) => {
-  return [
+export const columns = (
+  onEdit: (experience: IExperienceResponse) => void,
+  onDelete: (experience: IExperienceResponse) => void
+): ColumnDef<IExperienceResponse>[] => [
   {
     accessorKey: "position",
     header: "position",
@@ -54,4 +56,3 @@ export const columns: ColumnDef<IExperienceResponse>[] = ({ onEdit, onDelete }) 
     },
   },
 ];
-}

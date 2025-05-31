@@ -2,7 +2,7 @@
 
 import supabase from "../config/superbase-db-config";
 import { currentUser } from "@clerk/nextjs/server";
-import { ICurrentUserResponse, IUser, IUserRequest } from "../interfaces";
+import { ICurrentUserResponse, IUser, IUserProfileResponse, IUserRequest } from "../interfaces";
 import toast from "react-hot-toast";
 
 export const saveCurrentUser = async (userData: IUser) => {
@@ -31,7 +31,7 @@ export const saveCurrentUser = async (userData: IUser) => {
   }
 };
 
-const getUserProfile = async (clerkUserId: string) : Promise<ICurrentUserResponse> => {
+const getUserProfile = async (clerkUserId: string) : Promise<IUserProfileResponse> => {
   const { data, error } = await supabase
     .from("user_profiles")
     .select("*")
@@ -69,7 +69,7 @@ export const getCurrentUser = async (): Promise<ICurrentUserResponse> => {
       return {
         success: true,
         data: {
-          full_name: data.full_name,
+          full_name: data?.full_name || "",
           email: data?.email || "",
           whatsAppNo: data?.whatsapp_no || "",
           phoneNo: data?.phone_no || "",
@@ -130,18 +130,18 @@ export const updateProfile = async (user: IUserRequest) => {
       throw new Error("update on error");
     }
     return {
-      sucess: true,
+      success: true,
       data,
     };
   } catch (error) {
     if (error instanceof Error) {
       return {
-        sucess: true,
+        success: false,
         data: error.message,
       };
     }
     return {
-      sucess: true,
+      success: false,
       data: "update on error",
     };
   }

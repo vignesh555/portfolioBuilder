@@ -5,15 +5,19 @@ import userGlobalStore, { IuserGlobalStore } from "@/app/global-store/user-store
 import toast from "react-hot-toast";
 import { deleteSkillsParticularId, fetchSkills } from "@/app/actions/skills";
 import { DataTable } from "./data-table";
-import { columns } from "./columns";
+import { getColumns } from "./columns";
 import { ISkillsResponse } from "@/app/interfaces";
 import CreateSkills from "@/components/portfolioBuilder/CreateSkills";
 
+ type CreateSkillsRef = {
+    populateTheForm: (row: ISkillsResponse) => void;
+  };
 
 const Skills = () => {
   const [tableData, setTableData] = useState<ISkillsResponse[] | []>([]);
   const { user } = userGlobalStore() as IuserGlobalStore;
-  const childRef = useRef(null);
+ 
+  const childRef = useRef<CreateSkillsRef>(null);
 
   const getSkills = useCallback(async () => {
     if (user && user.id) {
@@ -57,7 +61,7 @@ const Skills = () => {
 
   return (
     <>
-      <DataTable columns={columns({ onEdit: handleEditSkills, onDelete: handleDeleteSkills })} data={tableData} />
+      <DataTable columns={getColumns({ onEdit: handleEditSkills, onDelete: handleDeleteSkills })} data={tableData} />
       <CreateSkills getSkills={getSkills} ref={childRef} />
     </>
   )

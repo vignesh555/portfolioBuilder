@@ -38,10 +38,10 @@ export const saveSkills = async (
 export const editSkills = async (skills: ISkillsEditRequest) => {
   try {
     const { data, error } = await supabase
-      .from("about_me")
+      .from("skills")
       .update([
         {
-            user_id: skills.userId,
+            // user_id: skills.userId,
             name: skills.name,
             icon: skills.icon,
         },
@@ -52,7 +52,7 @@ export const editSkills = async (skills: ISkillsEditRequest) => {
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -84,7 +84,7 @@ export const fetchSkills = async (userId: string): Promise<{
 
     return { error: null, data: mData, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -115,7 +115,7 @@ export const fetchSkillsParticularId = async (id: string): Promise<{
     }))
     return { error: null, data: mData, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -139,7 +139,7 @@ export const deleteSkillsParticularId = async (id: string): Promise<{
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }

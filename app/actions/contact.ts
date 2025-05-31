@@ -29,7 +29,7 @@ export const fetchContact = async (userId: string): Promise<{
 
     return { error: null, data: mData, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }

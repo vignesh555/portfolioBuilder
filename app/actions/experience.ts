@@ -27,7 +27,7 @@ export const saveExperience = async (
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -51,12 +51,12 @@ export const editExperience = async (experience: IExperienceEditRequest) => {
       ])
       .eq("id", experience.id);
     if (error) {
-      console.log(error)
+      // console.log(error)
       throw new Error("Error in edit record");
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -91,7 +91,7 @@ export const fetchExperience = async (userId: string): Promise<{
     }))
     return { error: null, data: mData, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -126,7 +126,7 @@ export const fetchExperienceParticularId = async (id: string): Promise<{
     }))
     return { error: null, data: mData, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -149,7 +149,7 @@ export const deleteExperienceParticularId = async (id: string): Promise<{
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }

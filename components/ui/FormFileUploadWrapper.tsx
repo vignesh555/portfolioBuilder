@@ -6,12 +6,15 @@ import Image from 'next/image'
 import { Control, FieldErrors, UseFormStateReturn } from 'react-hook-form';
 
 interface FormFileUploadWrapperProps {
-  form: {
-    control: Control<any>;
-    formState: UseFormStateReturn<any> & { errors: FieldErrors<any> };
-  };
+  // form: {
+  //   control: Control;
+  //   formState: UseFormStateReturn<{
+  //     setValue: (name: string, value: string) => void;
+  //   }> & { errors: FieldErrors };
+  // };
+  form: any;
   setSelectedFileUpload: (file: File) => void;
-  heroImage: string;
+  heroImage: string | null;
   name: string;
 }
 
@@ -30,7 +33,7 @@ function FormFileUploadWrapper({ name, form, setSelectedFileUpload, heroImage }:
                       accept="image/*"
                       onChange={(e) => {
                         setSelectedFileUpload(e.target.files![0])
-                        form.setValue(name, e.target.files![0].name);
+                        form?.setValue(name, e.target.files![0].name);
                       }}
                     />
                   </FormControl>

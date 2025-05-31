@@ -24,7 +24,7 @@ export const saveAboutMe = async (
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -48,7 +48,7 @@ export const editAboutMe = async (aboutMe: IAboutMeRequest, userId: string) => {
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -71,7 +71,7 @@ export const fetchAboutMe = async (userId: string): Promise<{
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }

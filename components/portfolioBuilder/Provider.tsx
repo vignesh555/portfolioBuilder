@@ -29,8 +29,12 @@ function Provider({
             } else {
                 throw new Error("Error fetching")
             }
-        } catch (error: any) {
-            toast.error(error?.message)
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message)
+            } else {
+                toast.error("Error fetching user")
+            }
         } finally {
             setIsLoading(false);
         }

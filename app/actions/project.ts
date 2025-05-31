@@ -25,7 +25,7 @@ export const saveProject = async (
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -51,7 +51,7 @@ export const editProject = async (project: IProjectEditRequest) => {
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -85,7 +85,7 @@ export const fetchProject = async (userId: string): Promise<{
 
     return { error: null, data: mData, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -118,7 +118,7 @@ export const fetchProjectParticularId = async (id: string): Promise<{
     }))
     return { error: null, data: mData, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -142,7 +142,7 @@ export const deleteProjectParticularId = async (id: string): Promise<{
     }
     return { error: null, data, success: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }

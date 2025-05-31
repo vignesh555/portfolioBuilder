@@ -1,4 +1,3 @@
-import { heroData } from "../assets";
 import supabase from "../config/superbase-db-config";
 
 export const getAllUserIds = async () => {
@@ -24,13 +23,14 @@ export const getAllUserIds = async () => {
 };
 
 export const getAllInformation = async (id) => {
+  const userId = Number(id);
   try {
     const results = await Promise.all([
-      supabase.from("user_profiles").select("*").eq("id", id),
-      supabase.from("about_me").select("*").eq("user_id", id),
-      supabase.from("experience").select("*").eq("user_id", id),
-      supabase.from("skills").select("*").eq("user_id", id),
-      supabase.from("project").select("*").eq("user_id", id),
+      supabase.from("user_profiles").select("*").eq("id", userId),
+      supabase.from("about_me").select("*").eq("user_id", userId),
+      supabase.from("experience").select("*").eq("user_id", userId),
+      supabase.from("skills").select("*").eq("user_id", userId),
+      supabase.from("project").select("*").eq("user_id", userId),
     ]);
 
     const heroData = {
@@ -81,6 +81,15 @@ export const getAllInformation = async (id) => {
     };
   } catch (error) {
     console.log("Error fetching user information:", error);
+    return {
+      data: {
+        heroData: {},
+        aboutData: {},
+        experienceData: [],
+        skillsData: [],
+        projectsData: [],
+      },
+    }
   }
 };
 
@@ -111,5 +120,17 @@ export const getMetaInformation = async (id) => {
     };
   } catch (error) {
     console.log("Error fetching user information:", error);
+    return {
+      data: {
+        heroData: {
+          profileName: "Unknown User",
+          profileTitle: "Unknown Title",
+        },
+        aboutData: {
+          profilePhoto: "",
+          description: "No description available",
+        },
+      },
+    };
   }
 };

@@ -32,7 +32,7 @@ const CreateSkills = forwardRef(({ getSkills }: CreateSkillsProps, ref) => {
     const [loading, setLoading] = useState(false);
     const { user } = userGlobalStore() as IuserGlobalStore;
     const [editId, setEditId] = useState<string | null>(null);
-    const [selectedFileUpload, setSelectedFileUpload] = useState(null);
+    const [selectedFileUpload, setSelectedFileUpload] = useState<string | File | null>(null);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -64,9 +64,11 @@ const CreateSkills = forwardRef(({ getSkills }: CreateSkillsProps, ref) => {
 
             if (editId) {
                 const { success } = await editSkills({
-                    ...values,
+                    // ...values,
+                    name: values.name,
                     id: editId,
                     icon: heroImage,
+                    userId: user?.id || "",
                 });
                 if (success) {
                     toast.success("Successfully Updated");
