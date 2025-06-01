@@ -1,5 +1,5 @@
 "use client"
-import { FieldValues, Path, UseFormReturn } from "react-hook-form";
+import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
 import { Checkbox } from "./checkbox";
 import {
     FormControl,
@@ -34,7 +34,7 @@ function FormCheckboxWrapper<T extends FieldValues>({
                                 className=" bg-white"
                                 checked={field.value}
                                 onCheckedChange={(checked: boolean) => {
-                                    form?.setValue(fieldName, checked);
+                                    form?.setValue(fieldName, checked as PathValue<T, Path<T>>);
                                 }}
                             />
                         </FormControl>

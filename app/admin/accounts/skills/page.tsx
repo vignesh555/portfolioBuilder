@@ -44,7 +44,7 @@ const Skills = () => {
 
   const handleDeleteSkills = async (row: ISkillsResponse) => {
     try {
-      const { success } = await deleteSkillsParticularId(row.id);
+      const { success } = await deleteSkillsParticularId(row.id, user?.id);
       console.log("Delete experience", success)
       if (success) {
         toast.success("Skills deleted successfully");
