@@ -13,6 +13,7 @@ import { contactMeSchema, ContactMeSchemaConvertedType } from "@/app/validationS
 import FormInputWrapper from "../ui/FormInputWrapper";
 import FormMultiLineWrapper from "../ui/FormMultiLineWrapper";
 import toast from "react-hot-toast";
+import FormTextAreaWrapper from "../ui/FormTextAreaWrapper";
 
 function ContactMe() {
     const [isPending, startTransition] = useTransition();
@@ -68,11 +69,13 @@ function ContactMe() {
                             errors={form.formState.errors.subject}
                             maxLength={50}
                         />
-                        <FormMultiLineWrapper<ContactMeSchemaConvertedType>
-                            form={form}
-                            fieldName="content"
 
+                        <FormTextAreaWrapper<ContactMeSchemaConvertedType>
+                            control={form.control}
+                            fieldName="content"
+                            errors={form.formState.errors.content}
                         />
+                        
                         <Button disabled={isPending} type="submit">Submit</Button>
                     </form>
                 </Form>
