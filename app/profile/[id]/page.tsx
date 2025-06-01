@@ -75,7 +75,6 @@ export default async function Profile(props: Props) {
         const params = await props.params;
         const { id } = await params;
         const { data } = await getAllInformation(id);
-        console.log("Profile Data:", data);
         const { heroData, aboutData, experienceData, skillsData, projectsData } = data;
         return (
             <div>

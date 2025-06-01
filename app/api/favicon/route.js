@@ -1,6 +1,5 @@
 // app/api/favicon/route.ts
 export async function GET(request) {
-  console.log('here')
   const { searchParams } = new URL(request.url);
   const letter = searchParams.get('letter') || 'V';
 

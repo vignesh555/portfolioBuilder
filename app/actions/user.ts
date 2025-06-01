@@ -69,6 +69,7 @@ export const getCurrentUser = async (): Promise<ICurrentUserResponse> => {
       return {
         success: true,
         data: {
+          id: data?.id || "",
           full_name: data?.full_name || "",
           email: data?.email || "",
           whatsAppNo: data?.whatsapp_no || "",

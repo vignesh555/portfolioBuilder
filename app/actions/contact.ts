@@ -44,7 +44,6 @@ export const fetchContact = async (): Promise<{
     if (error || !data) {
       throw new Error("Error in edit record");
     }
-    console.log("data", data);
     const mData = data.map((oData) => ({
         id: oData.id,
         createdAt: oData.created_at,
