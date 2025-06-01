@@ -4,10 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import userGlobalStore, { IuserGlobalStore } from "@/app/global-store/user-store";
 import toast from "react-hot-toast";
 import { deleteSkillsParticularId, fetchSkills } from "@/app/actions/skills";
-import { DataTable } from "./data-table";
 import { getColumns } from "./columns";
 import { ISkillsResponse } from "@/app/interfaces";
 import CreateSkills from "@/components/portfolioBuilder/CreateSkills";
+import { DataTable } from "../common/data-table";
 
  type CreateSkillsRef = {
     populateTheForm: (row: ISkillsResponse) => void;

@@ -6,9 +6,10 @@ type FormInputWrapperProps<T extends FieldValues> = {
     fieldName: Path<T>;
     control: Control<T>;
     errors: FieldErrors<T>[keyof T] | undefined;
+    maxLength?: number;
 }
 
-function FormInputWrapper<T extends FieldValues>({ fieldName, control, errors }: FormInputWrapperProps<T>) {
+function FormInputWrapper<T extends FieldValues>({ fieldName, control, errors, maxLength }: FormInputWrapperProps<T>) {
     return (
         <FormField
             control={control}
@@ -16,7 +17,11 @@ function FormInputWrapper<T extends FieldValues>({ fieldName, control, errors }:
             render={({ field }) => (
                 <FormItem>
                     <FormControl>
-                        <Input className="bg-white" placeholder={`Enter ${fieldName}`} {...field} />
+                        <Input 
+                            className="bg-white" 
+                            placeholder={`Enter ${fieldName}`} {...field} 
+                            maxLength={maxLength}
+                        />
                     </FormControl>
                     {errors ? (
                         <FormMessage />

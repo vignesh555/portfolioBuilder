@@ -16,9 +16,10 @@ function FormMultiLineWrapper<T extends FieldValues>({ form, fieldName }: typeFo
                 <FormItem>
                     <FormControl>
                         <Editor
-                              className="bg-white min-h-[200px]"
-                              value={field.value}
-                              onChange={(e) => form.setValue(fieldName, e?.target?.value as PathValue<T, Path<T>>)} />
+                            className="bg-white min-h-[200px]"
+                            value={field.value}
+                            onChange={(e) => form.setValue(fieldName, e?.target?.value as PathValue<T, Path<T>>)} 
+                        />
                     </FormControl>
                     {form.formState.errors[fieldName] ? (
                         <FormMessage />

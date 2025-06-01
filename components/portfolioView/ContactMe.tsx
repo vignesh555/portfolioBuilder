@@ -2,39 +2,46 @@
 import Header from "./Header";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
-
 import { Button } from "@/components/ui/button"
 import {
     Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea";
 import LayoutWrapper from "./LayoutWrapper";
-
-const formSchema = z.object({
-    name: z.string().nonempty("This is Required"),
-    email: z.string().email().nonempty("This is Required"),
-    subject: z.string().nonempty("This is Required"),
-    content: z.string().nonempty("This is Required"),
-})
+import { saveContact } from "@/app/actions/contact";
+import { useTransition } from "react";
+import { contactMeSchema, ContactMeSchemaConvertedType } from "@/app/validationSchema/contactMe";
+import FormInputWrapper from "../ui/FormInputWrapper";
+import FormMultiLineWrapper from "../ui/FormMultiLineWrapper";
+import toast from "react-hot-toast";
 
 function ContactMe() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const [isPending, startTransition] = useTransition();
+
+    const form = useForm<ContactMeSchemaConvertedType>({
+        resolver: zodResolver(contactMeSchema),
         defaultValues: {
             name: "",
-            email: "",
+            emailId: "",
             subject: "",
             content: "",
         },
     })
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    async function onSubmit(values: ContactMeSchemaConvertedType) {
+        startTransition(async () => {
+            const { success, error } = await saveContact({
+                name: values.name,
+                emailId: values.emailId,
+                subject: values.subject,
+                content: values.content,
+            });
+            form.reset();
+            if (success) {
+                toast.success("Your message has been sent successfully!");
+            }
+            if (error) {
+                toast.error(error);
+            }
+        });
     }
     return (
         <LayoutWrapper id="contact">
@@ -42,71 +49,31 @@ function ContactMe() {
             <div className="w-full flex justify-between items-center md:justify-center">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-                        <FormField
+                        <FormInputWrapper<ContactMeSchemaConvertedType>
                             control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input className="bg-white" placeholder="Enter Your Name" {...field} />
-                                    </FormControl>
-                                    {form.formState.errors.name ? (
-                                        <FormMessage />
-                                    ) : (
-                                        <div className="text-sm text-muted-foreground min-h-[20px]">&nbsp;</div>
-                                    )}
-                                </FormItem>
-                            )}
+                            fieldName="name"
+                            errors={form.formState.errors.name}
+                            maxLength={50}
                         />
-                        <FormField
+                        <FormInputWrapper<ContactMeSchemaConvertedType>
                             control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input className="bg-white" placeholder="Enter Your Email Id" {...field} />
-                                    </FormControl>
-                                    {form.formState.errors.email ? (
-                                        <FormMessage />
-                                    ) : (
-                                        <div className="text-sm text-muted-foreground min-h-[20px]">&nbsp;</div>
-                                    )}
-                                </FormItem>
-                            )}
+                            fieldName="emailId"
+                            errors={form.formState.errors.emailId}
+                            maxLength={50}
                         />
-                        <FormField
+
+                        <FormInputWrapper<ContactMeSchemaConvertedType>
                             control={form.control}
-                            name="subject"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input className="bg-white" placeholder="Enter the Subject" {...field} />
-                                    </FormControl>
-                                    {form.formState.errors.subject ? (
-                                        <FormMessage />
-                                    ) : (
-                                        <div className="text-sm text-muted-foreground min-h-[20px]">&nbsp;</div>
-                                    )}
-                                </FormItem>
-                            )}
+                            fieldName="subject"
+                            errors={form.formState.errors.subject}
+                            maxLength={50}
                         />
-                        <FormField
-                            control={form.control}
-                            name="content"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Textarea className="bg-white" placeholder="Enter the Content" {...field} />
-                                    </FormControl>
-                                    {form.formState.errors.content ? (
-                                        <FormMessage />
-                                    ) : (
-                                        <div className="text-sm text-muted-foreground min-h-[20px]">&nbsp;</div>
-                                    )}
-                                </FormItem>
-                            )}
+                        <FormMultiLineWrapper<ContactMeSchemaConvertedType>
+                            form={form}
+                            fieldName="content"
+
                         />
-                        <Button type="submit">Submit</Button>
+                        <Button disabled={isPending} type="submit">Submit</Button>
                     </form>
                 </Form>
             </div>

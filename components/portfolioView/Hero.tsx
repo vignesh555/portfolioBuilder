@@ -45,7 +45,7 @@ const Hero: React.FC<HeroProps> = ({ heroData }) => {
                         className="h-auto w-[300px] rounded-full"
                     />
                 </motion.div>
-                <h1 className="mt-5 text-3xl">{heroData.profileTitle}</h1>
+                <h1 className="mt-5 text-3xl text-center">{heroData.profileTitle}</h1>
             </div>
             <div className="my-5 flex flex-wrap gap-5 text-yellow-400 items-center justify-center">
                 {heroData.primarySkills.split(',').map((oPrimarySkills, index) => (

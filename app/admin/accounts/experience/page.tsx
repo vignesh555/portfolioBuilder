@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import userGlobalStore, { IuserGlobalStore } from "@/app/global-store/user-store";
 import toast from "react-hot-toast";
 import { deleteExperienceParticularId, fetchExperience } from "@/app/actions/experience";
-import { DataTable } from "./data-table";
+import { DataTable } from "../common/data-table";
 import { columns } from "./columns";
 import { IExperienceResponse } from "@/app/interfaces";
 import CreateExperience from "@/components/portfolioBuilder/CreateExperience";

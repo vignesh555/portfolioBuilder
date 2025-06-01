@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import userGlobalStore, { IuserGlobalStore } from "@/app/global-store/user-store";
 import toast from "react-hot-toast";
 import { deleteProjectParticularId, fetchProject } from "@/app/actions/project";
-import { DataTable } from "./data-table";
+import { DataTable } from "../common/data-table";
 import { getColumns } from "./columns";
 import { IProjectResponse } from "@/app/interfaces";
 import CreateProject from "@/components/portfolioBuilder/CreateProject";
