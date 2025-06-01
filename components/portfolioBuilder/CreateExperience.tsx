@@ -16,14 +16,20 @@ import { saveExperience, editExperience } from "@/app/actions/experience"
 import toast from "react-hot-toast"
 import { parse, format} from "date-fns"
 import { IExperienceResponse } from "@/app/interfaces"
+import FormCheckboxWrapper from "../ui/FormCheckboxWrapper"
 
 const formSchema = z.object({
   position: z.string().nonempty("This is Required"),
   companyName: z.string().nonempty("This is Required"),
   countryName: z.string().nonempty("This is Required"),
   fromDate: z.coerce.date({ required_error: "This is Required", invalid_type_error: "Invalid date" }),
-  endDate: z.coerce.date({ required_error: "This is Required", invalid_type_error: "Invalid date" }),
+  // endDate: z.coerce.optional(z.date().refine((date) => date >= new Date(), {
+  //   message: "End date must be greater than or equal to from date",
+  // })),
+  endDate: z.coerce.date().optional(),
+  // endDate: z.coerce.date().optional(),
   description: z.string().nonempty("This is Required"),
+  isPresent: z.boolean().optional(),
 })
 
 interface CreateExperienceProps {
@@ -44,7 +50,8 @@ const CreateExperience = forwardRef(({ getExperience }: CreateExperienceProps, r
       countryName: "",
       fromDate: undefined,
       endDate: undefined,
-      description: ""
+      description: "",
+      isPresent: false,
     },
   })
 
@@ -56,8 +63,9 @@ const CreateExperience = forwardRef(({ getExperience }: CreateExperienceProps, r
         companyName: row.companyName,
         countryName: row.countryName,
         fromDate: parse(row.fromDate, "dd-MM-yyyy", new Date()),
-        endDate: parse(row.endDate, "dd-MM-yyyy", new Date()),
-        description: row.description
+        endDate: row.endDate ? parse(row.endDate, "dd-MM-yyyy", new Date()) : undefined,
+        description: row.description,
+        isPresent: row.isPresent ? true : false,
       });
     }
   }));
@@ -70,7 +78,8 @@ const CreateExperience = forwardRef(({ getExperience }: CreateExperienceProps, r
           ...values, 
           id: editId,
           fromDate: format(new Date(values.fromDate), "dd-MM-yyyy"),
-          endDate: format(new Date(values.endDate), "dd-MM-yyyy"),
+          endDate: values.isPresent || !values.endDate ? '' : format(new Date(values.endDate), "dd-MM-yyyy"),
+          userId: user?.id || "",
          });
         if (success) {
           toast.success("Successfully Updated");
@@ -90,7 +99,7 @@ const CreateExperience = forwardRef(({ getExperience }: CreateExperienceProps, r
         const { success } = await saveExperience({
           ...values, 
           fromDate: format(new Date(values.fromDate), "dd-MM-yyyy"),
-          endDate: format(new Date(values.endDate), "dd-MM-yyyy"),
+          endDate: values.isPresent || !values.endDate ? '' : format(new Date(values.endDate), "dd-MM-yyyy"),
           userId: user?.id || "",
         });
         if (success) {
@@ -112,6 +121,7 @@ const CreateExperience = forwardRef(({ getExperience }: CreateExperienceProps, r
     }
   }
 
+  console.log("CreateExperience Rendered", form.getValues());
 
   return (
     <div className="mt-10">
@@ -137,6 +147,11 @@ const CreateExperience = forwardRef(({ getExperience }: CreateExperienceProps, r
             control={form.control} 
             errors={form.formState.errors.fromDate}
           /> 
+          <FormCheckboxWrapper<ExperienceFormSchema>
+            form={form}
+            label="Present Job"
+            fieldName="isPresent"
+          />
           <FormDateWrapper<ExperienceFormSchema> 
             fieldName="endDate"
             control={form.control} 

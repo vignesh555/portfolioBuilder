@@ -17,8 +17,9 @@ export interface IExperienceSaveRequest {
     companyName: string,
     countryName: string,
     fromDate: string,
-    endDate: string,
+    endDate?: string,
     description: string,
+    isPresent?: boolean,
 }
 
 export interface IExperienceEditRequest {
@@ -27,8 +28,10 @@ export interface IExperienceEditRequest {
     companyName: string,
     countryName: string,
     fromDate: string,
-    endDate: string,
+    endDate?: string,
     description: string,
+    isPresent?: boolean,
+    userId: string,
 }
 
 export interface IExperienceResponse {
@@ -41,4 +44,5 @@ export interface IExperienceResponse {
     fromDate: string,
     endDate: string,
     description: string,
+    isPresent: boolean,
 }

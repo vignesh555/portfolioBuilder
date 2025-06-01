@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import supabase from "../config/superbase-db-config";
 import { ISkillsEditRequest, ISkillsSaveRequest, ISkillsResponse } from "../interfaces";
 
@@ -18,6 +19,7 @@ export const saveSkills = async (
         icon: skills.icon,
       },
     ]);
+    revalidatePath("/profile/" + skills.userId);
     if (error) {
       throw new Error("Error in save record");
     }
@@ -47,6 +49,7 @@ export const editSkills = async (skills: ISkillsEditRequest) => {
         },
       ])
       .eq("id", skills.id);
+      revalidatePath("/profile/" + skills.userId);
     if (error) {
       throw new Error("Error in edit record");
     }
@@ -124,7 +127,7 @@ export const fetchSkillsParticularId = async (id: string): Promise<{
 };
 
 
-export const deleteSkillsParticularId = async (id: string): Promise<{
+export const deleteSkillsParticularId = async (id: string, userId: string | undefined): Promise<{
   data?: ISkillsResponse[] | null;
   success?: boolean;
   error: Error | string | null;
@@ -134,6 +137,7 @@ export const deleteSkillsParticularId = async (id: string): Promise<{
       .from("skills")
       .delete()
       .eq("id", id);
+      revalidatePath("/profile/" + userId);
     if (error) {
       throw new Error("Error in edit record");
     }

@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import supabase from "../config/superbase-db-config";
 import { IAboutMeRequest, IAboutMeResponse } from "../interfaces";
 
@@ -19,6 +20,7 @@ export const saveAboutMe = async (
         user_id: userId
       },
     ]);
+    revalidatePath("/profile/" + userId);
     if (error) {
       throw new Error("Error in save record");
     }
@@ -43,6 +45,7 @@ export const editAboutMe = async (aboutMe: IAboutMeRequest, userId: string) => {
         },
       ])
       .eq("user_id", userId);
+    revalidatePath("/profile/" + userId);
     if (error) {
       throw new Error("Error in edit record");
     }

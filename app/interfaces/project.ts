@@ -22,5 +22,6 @@ export interface IProjectEditRequest {
     name: string,
     objective: string,
     description: string,
-    skills: string
+    skills: string,
+    userId: string
 }

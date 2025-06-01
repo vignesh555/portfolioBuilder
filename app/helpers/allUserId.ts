@@ -29,7 +29,7 @@ export const getAllInformation = async (id: string) => {
     const results = await Promise.all([
       supabase.from("user_profiles").select("*").eq("id", userId),
       supabase.from("about_me").select("*").eq("user_id", userId),
-      supabase.from("experience").select("*").eq("user_id", userId),
+      supabase.from("experience").select("*").eq("user_id", userId).order("id", { ascending: true }),
       supabase.from("skills").select("*").eq("user_id", userId),
       supabase.from("project").select("*").eq("user_id", userId),
     ]);

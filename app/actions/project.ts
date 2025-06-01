@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import supabase from "../config/superbase-db-config";
 import { IProjectEditRequest, IProjectSaveRequest, IProjectResponse } from "../interfaces";
 
@@ -20,6 +21,7 @@ export const saveProject = async (
         skills: project.skills,
       },
     ]);
+    revalidatePath("/profile/" + project.userId);
     if (error) {
       throw new Error("Error in save record");
     }
@@ -46,6 +48,7 @@ export const editProject = async (project: IProjectEditRequest) => {
         },
       ])
       .eq("id", project.id);
+      revalidatePath("/profile/" + project.userId);
     if (error) {
       throw new Error("Error in edit record");
     }
@@ -127,7 +130,7 @@ export const fetchProjectParticularId = async (id: string): Promise<{
 };
 
 
-export const deleteProjectParticularId = async (id: string): Promise<{
+export const deleteProjectParticularId = async (id: string, userId: string | undefined): Promise<{
   data?: IProjectResponse[] | null;
   success?: boolean;
   error: Error | string | null;
@@ -140,6 +143,7 @@ export const deleteProjectParticularId = async (id: string): Promise<{
     if (error) {
       throw new Error("Error in edit record");
     }
+    revalidatePath("/profile/" + userId);
     return { error: null, data, success: true };
   } catch (error) {
     // console.log(error);

@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import supabase from "../config/superbase-db-config";
 import { IExperienceEditRequest, IExperienceSaveRequest, IExperienceResponse } from "../interfaces";
 
@@ -19,15 +20,19 @@ export const saveExperience = async (
         from_date: experience.fromDate,
         end_date: experience.endDate,
         description: experience.description,
-        user_id: experience.userId
+        user_id: experience.userId,
+        present: experience.isPresent,
       },
     ]);
+    revalidatePath("/profile/" + experience.userId);
+
     if (error) {
+      console.log(error)
       throw new Error("Error in save record");
     }
     return { error: null, data, success: true };
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     if (error instanceof Error) {
       return { error, data: null, success: false };
     }
@@ -47,9 +52,11 @@ export const editExperience = async (experience: IExperienceEditRequest) => {
           from_date: experience.fromDate,
           end_date: experience.endDate,
           description: experience.description,
+          present: experience.isPresent,
         },
       ])
       .eq("id", experience.id);
+      revalidatePath("/profile/" + experience.userId);
     if (error) {
       // console.log(error)
       throw new Error("Error in edit record");
@@ -73,7 +80,7 @@ export const fetchExperience = async (userId: string): Promise<{
     const { data, error } = await supabase
       .from("experience")
       .select("*")
-      .eq("user_id", userId);
+      .eq("user_id", userId).order("id", { ascending: true });
     if (error || !data) {
       throw new Error("Error in edit record");
     }
@@ -88,7 +95,9 @@ export const fetchExperience = async (userId: string): Promise<{
       fromDate: oData.from_date,
       endDate: oData.end_date,
       description: oData.description,
+      isPresent: oData.present,
     }))
+
     return { error: null, data: mData, success: true };
   } catch (error) {
     // console.log(error);
@@ -123,6 +132,7 @@ export const fetchExperienceParticularId = async (id: string): Promise<{
       fromDate: oData.from_date,
       endDate: oData.end_date,
       description: oData.description,
+      isPresent: oData.present,
     }))
     return { error: null, data: mData, success: true };
   } catch (error) {

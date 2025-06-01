@@ -59,6 +59,7 @@ const CreateProject = forwardRef(({ getProject }: CreateProjectProps, ref) => {
         const { success } = await editProject({ 
           ...values, 
           id: editId,
+          userId: user?.id || "",
         });
         if (success) {
           toast.success("Successfully Updated");

@@ -44,7 +44,7 @@ const Project = () => {
 
   const handleDeleteProject = async (row: IProjectResponse) => {
     try {
-      const { success } = await deleteProjectParticularId(row.id);
+      const { success } = await deleteProjectParticularId(row.id, user?.id);
       if (success) {
         toast.success("Project deleted successfully");
         getProject();
